@@ -76,10 +76,9 @@ app.put("/update", (req, res) => {
             password: "Passwod"
         }, {
             where: {
-                id: 23
-                // id: {
-                //     [OP.eq]: req.params.userId
-                // }
+                id: {
+                    [OP.eq]: req.query.userId
+                }
             }
         })
         .then(rows => res.json(rows))
@@ -89,6 +88,20 @@ app.put("/update", (req, res) => {
         });
 });
 
+app.delete("/remove", (req, res) => {
+    User.destroy({
+            where: {
+                id: {
+                    [OP.eq]: req.query.userId
+                }
+            }
+        })
+        .then(() => res.send("user Deleted"))
+        .catch(err => {
+            res.status(404).json(err);
+            console.log(err);
+        });
+});
 
 
 app.listen(port, () => {
