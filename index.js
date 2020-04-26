@@ -60,6 +60,16 @@ app.get("/findall", (req, res) => {
         });
 });
 
+// '/test/:uid'
+app.get("/findbyid/:userId", (req, res) => {
+    User.findByPk(req.params.userId)
+        .then(user => res.json(user))
+        .catch(err => {
+            res.status(404).json(err);
+            console.log(err);
+        });
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
