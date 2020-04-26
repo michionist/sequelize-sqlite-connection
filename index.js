@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const express = require("express");
 const _USER = require("./user.json");
+const OP = Sequelize.Op;
 
 const app = express();
 const port = 8100;
@@ -33,15 +34,7 @@ const User = connection.define("User", {
 });
 
 connection
-    .sync({
-    })
-    .then(() => {
-        User.bulkCreate(_USER)
-            .then(users => {
-                console.log("Success adding users");
-            })
-            .catch(err => console.log(err))
-    })
+    .sync({})
     .then(() => console.log("Connection Succeeded!"))
     .catch((err) => console.log(`Connection failed: ${err}`));
 
@@ -57,6 +50,16 @@ app.get("/", (req, res) => {
             console.log(err);
         });
 });
+
+app.get("/findall", (req, res) => {
+    User.findAll()
+        .then(user => res.json(user))
+        .catch(err => {
+            res.status(404).json(err);
+            console.log(err);
+        });
+});
+
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
