@@ -60,7 +60,6 @@ app.get("/findall", (req, res) => {
         });
 });
 
-// '/test/:uid'
 app.get("/findbyid/:userId", (req, res) => {
     User.findByPk(req.params.userId)
         .then(user => res.json(user))
@@ -69,6 +68,27 @@ app.get("/findbyid/:userId", (req, res) => {
             console.log(err);
         });
 });
+
+
+app.put("/update", (req, res) => {
+    User.update({
+            name: "Larry King",
+            password: "Passwod"
+        }, {
+            where: {
+                id: 23
+                // id: {
+                //     [OP.eq]: req.params.userId
+                // }
+            }
+        })
+        .then(rows => res.json(rows))
+        .catch(err => {
+            res.status(404).json(err);
+            console.log(err);
+        });
+});
+
 
 
 app.listen(port, () => {
